@@ -1,0 +1,73 @@
+.vagas-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  flex-grow: 1;
+  background: #CDCEC0;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.grade-A, .grade-B {
+  display: grid;
+  grid-template-columns: repeat(7, 120px);
+  gap: 10px;
+}
+
+.grade-C, .grade-D {
+  display: grid;
+  grid-template-columns: repeat(6, 120px);
+  gap: 25px;
+}
+
+.grade-E, .grade-F {
+  display: grid;
+  grid-template-columns: repeat(7, 120px);
+  gap: 10px;
+}
+.grade-D .vaga{
+  transform: rotate(-35deg)
+}
+.grade-C .vaga{
+  transform: rotate(35deg)
+}
+
+.vaga {
+  width: 100px;
+  height: 240px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: 0.2s;
+  color: gray;
+}
+
+.vaga:hover {
+  border-color: #115293;
+  background-color: #f0f0f0;
+}
+
+.vaga.selecionada {
+  background-color: #1976d2;
+  color: white;
+  border-color: #115293;
+}
+
+.vaga.ocupada {
+  border-color: #b71c1c;
+  cursor: not-allowed;
+  background-color: #E7E7DF80;
+  color: gray;
+}
+
+.vaga.inativo {
+  opacity: 0.3;
+  pointer-events: none;
+}
