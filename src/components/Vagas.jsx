@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Vagas.css';
 import Modal from './Modal';
+import api from '../utils/api';
 
 export default function Vagas({
   vagas,
@@ -12,22 +13,33 @@ export default function Vagas({
   tiposVaga
 }) {
   const [showModal, setShowModal] = useState(false);
+  console.log(vagas)
 
   const tipoDaVaga = (vaga) => {
-    if (prioridade && tiposVaga.prioridade.includes(vaga)) return 'prioridade';
+    if (prioridade && tiposVaga.prioridade.includes(vaga.spot_name)) return 'prioridade';
 
-    const prefixo = vaga[0];
-    if (tiposVaga.carro.includes(prefixo)) return 'carro';
-    if (tiposVaga.moto.includes(prefixo)) return 'moto';
+    const prefixo = vaga.spot_name;
+
+    console.log('Prefixo da vaga:', prefixo);
+    console.log('Tipos de vaga:', tiposVaga);
+
+    if (tiposVaga.carro.includes(prefixo)) {
+      console.log(`a vaga ${vaga.spot_name} é de carro`);
+      return 'carro';
+    }
+    if (tiposVaga.moto.includes(prefixo)) {
+      console.log(`a vaga ${vaga.spot_name} é de moto`);
+      return 'moto';
+    };
 
     return 'carro';
   };
 
   const handleClick = (vaga) => {
     const tipo = tipoDaVaga(vaga);
-    const isOcupada = vagasOcupadas.includes(vaga);
+    const isOcupada = vagasOcupadas.includes(vaga.spot_name);
     const isIncompatível = prioridade
-      ? !tiposVaga.prioridade.includes(vaga)
+      ? !tiposVaga.prioridade.includes(vaga.spot_name)
       : tipo !== veiculo;
 
     if (isOcupada || isIncompatível) return;
@@ -36,10 +48,21 @@ export default function Vagas({
     setShowModal(true);
   };
 
-  const handleSalvar = (placa) => {
+  const handleSalvar = (placa) => { 
     console.log(`Placa ${placa} registrada na vaga ${vagaSelecionada}`);
     setShowModal(false);
     setVagaSelecionada(null);
+
+    api.post('/tickets', {
+      palate: placa,
+      vehicle_type_id: vagaSelecionada.vehicleType.id,
+      spot_id: vagaSelecionada.id
+    }).then((res) => {
+      console.log('Vaga registrada com sucesso:', res.data);
+    })
+
+
+
   };
 
   const handleFecharModal = () => {
@@ -65,22 +88,22 @@ export default function Vagas({
         <div key={setor} className="setor">
           <div className={getGridClass(setor)}>
             {lista.map((vaga) => {
-              const ocupada = vagasOcupadas.includes(vaga);
+              const ocupada = vagasOcupadas.includes(vaga.spot_name);
               const tipo = tipoDaVaga(vaga);
               const inativo = prioridade
-                ? !tiposVaga.prioridade.includes(vaga)
+                ? !tiposVaga.prioridade.includes(vaga.spot_name)
                 : tipo !== veiculo;
 
               return (
                 <div
-                  key={vaga}
+                  key={vaga.id}
                   className={`vaga 
                     ${ocupada ? 'ocupada' : ''} 
-                    ${vagaSelecionada === vaga ? 'selecionada' : ''} 
+                    ${vagaSelecionada === vaga.spot_name ? 'selecionada' : ''} 
                     ${inativo ? 'inativo' : ''}`}
                   onClick={() => handleClick(vaga)}
                 >
-                  {vaga}
+                  {vaga.spot_name}
                 </div>
               );
             })}

@@ -2,11 +2,11 @@ export default function Sidebar({ veiculo, setVeiculo, andar, setAndar, placa, s
   return (
     <aside className="sidebar">
       <div className="card">
-        <disev className="conteinerUsuario">
+        <div className="conteinerUsuario">
           <div/>
           <img className="foto" src="./src/assets/usuario.png"></img>
           <p><strong>Usuário: Francisco</strong><br />Cargo: Estacionamento</p>
-        </disev>
+        </div>
         <div className="dataHora">
           <span>Segunda-feira<br />15:00</span>
         </div>

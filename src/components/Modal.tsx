@@ -15,7 +15,7 @@ function Modal({ vagaId, onClose, onSalvar }) {
         <div className="modal-overlay">
             <div className="modal">
                 <div className="title">
-                <span>Cadastrar veículo na vaga {vagaId}</span>
+                <span>Cadastrar veículo na vaga {vagaId.spot_name}</span>
                 </div>
                 <form onSubmit={handleSubmit}>
                     <label>

@@ -24,6 +24,7 @@
 }
 
 .modal-header-saida {
+  gap: 10px;
   display: flex;
   justify-content: center;
   background: #4D5C5F;
